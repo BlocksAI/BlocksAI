@@ -1,0 +1,47 @@
+version: '3.8'
+
+services:
+  
+  # blocksai-frontend
+  blocksai-frontend:
+    container_name: blocksai-frontend
+    image: blocksai-frontend:latest
+    build:
+      context: ./BlocksAI-frontend
+      dockerfile: ./Dockerfile
+    # env_file: ./.env
+    restart: always
+    volumes:
+      - ./BlocksAI-frontend:/app
+      - /app/node_modules
+    ports:
+      - 3000:3000
+
+  # blocksai - backend
+  blocksai-backend:
+    container_name: blocksai-backend
+    image: blocksai-backend:latest
+    build:
+      context: ./BlocksAI-backend
+      dockerfile: ./Dockerfile
+    env_file: ./.env
+    # restart: always
+    volumes:
+      - ./BlocksAI-backend:/app
+    ports:
+      - 5001:5001
+
+  # mysql database
+  mysql:
+    container_name: mysql-db
+    image: mysql:latest
+    env_file: ./.env
+    restart: always
+    volumes:
+      - ./sqldata:/var/lib/mysql
+    ports:  
+      - 3306:3306
+    healthcheck:
+          test: ["CMD", 'mysqladmin', 'ping', '-h', 'localhost', '-u', 'root', '-p$$MYSQL_PASSWORD' ]
+          timeout: 5s
+          retries: 10
