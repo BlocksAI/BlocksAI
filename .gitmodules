@@ -1,0 +1,6 @@
+[submodule "BlocksAI-backend"]
+	path = BlocksAI-backend
+	url = https://github.com/BlocksAI/BlocksAI-backend
+[submodule "BlocksAI-frontend"]
+	path = BlocksAI-frontend
+	url = https://github.com/BlocksAI/BlocksAI-frontend
